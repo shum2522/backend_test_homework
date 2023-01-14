@@ -10,11 +10,11 @@ class InfoMessage:
         self.calories = calories
 
     def get_message(self):
-        return (f'Тип тренировки: {self.training_type} ; '
-                f'Длительность: {float(round(self.duration,3)):g} ч.; '
-                f'Дистанция: {float(round(self.distance, 3)):g} км; '
-                f'Ср. скорость: {float(round(self.speed,3)):g} км/ч; '
-                f'Потрачено ккал: {float(round(self.calories,3)):g}.')
+        return (f'Тип тренировки: {self.training_type}; '
+                f'Длительность: {self.duration:.3f} ч.; '
+                f'Дистанция: {self.distance:.3f} км; '
+                f'Ср. скорость: {self.speed:.3f} км/ч; '
+                f'Потрачено ккал: {self.calories:.3f}.')
 
 
 class Training:
@@ -77,10 +77,8 @@ class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
     CALORIES_WEIGHT_MULTIPLIER = 0.035
     CALORIES_SPEED_HEIGHT_MULTIPLIER = 0.029
-    KM_1 = 1000
-    HOUR_1_MIN = 60
     CM_IN_M = 100
-    KMH_IN_MSEC = 1000 / 3600
+    KMH_IN_MSEC = 0.278
 
     def __init__(self, action: int, duration: float,
                  weight: float, height) -> None:
@@ -92,7 +90,7 @@ class SportsWalking(Training):
 
     def get_spent_calories(self):
         calories = ((self.CALORIES_WEIGHT_MULTIPLIER
-                    * self.weight + ((self.FKMH_IN_MSEC)**2
+                    * self.weight + ((self.FKMH_IN_MSEC**2)
                      / self.height_m)
                     * self.CALORIES_SPEED_HEIGHT_MULTIPLIER
                     * self.weight)
@@ -133,13 +131,13 @@ def read_package(training_type: str, data: list) -> Training:
         training_data['SWM'] = Swimming(data[0], data[1],
                                         data[2], data[3],
                                         data[4],)
-        Training.training_type = 'плавание'
+        Training.training_type = 'Swimming'
 
         return training_data['SWM']
     elif training_type == 'RUN':
         training_data['RUN'] = Running(data[0], data[1], data[2],)
 
-        Training.training_type = 'бег'
+        Training.training_type = 'Running'
 
         return training_data['RUN']
     elif training_type == 'WLK':
@@ -148,7 +146,7 @@ def read_package(training_type: str, data: list) -> Training:
                                              data[2],
                                              data[3],)
 
-        Training.training_type = 'спортивная хотьба'
+        Training.training_type = 'SportsWalking'
 
         return training_data['WLK']
 
