@@ -129,7 +129,8 @@ def read_package(training_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     if training_type == 'SWM':
         training_data['SWM'] = Swimming(data[0], data[1],
-                                        data[2], data[3],
+                                        data[2],
+                                        data[3],
                                         data[4],)
         Training.training_type = 'Swimming'
 
